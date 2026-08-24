@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "VidNote",
+  "version": "1.0",
+  "description": "Take timestamped notes while watching YouTube videos.",
+  "permissions":[
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "https://www.youtube.com/*"
+  ],
+  "content_scripts": [
+    {
+        "matches": ["https://www.youtube.com/watch*"],
+        "js": ["content.js"]
+    }
+  ]
+}
