@@ -53,6 +53,7 @@ const jamButton = () => {
             let url = new URL(window.location.href);
             let vidId = url.searchParams.get("v");
 
+        try{
             chrome.storage.local.get([vidId], (data)=>{
                 let notes = data[vidId] || [];
                 notes.push({ time: time, text: txt, id: Date.now() });
@@ -62,7 +63,15 @@ const jamButton = () => {
                     vid.play();
                 });
             });
-        } else {
+        } catch (err){
+            if (err.message.includes("Exention context invalidated")){
+                alert("yo, refresh the yt page real quick.");
+            } else{
+                console.error("VidNote storage error:", err);
+            }
+            vid.play();
+        }
+        } else{
             vid.play();
         }
     });
