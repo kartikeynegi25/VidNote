@@ -5,93 +5,213 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VidNote</title>
     <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #ededed;
+            --muted: #8b949e;
+            --accent: #2ea043;
+            --accent-hover: #3fb950;
+            --danger: #f85149;
+        }
         body {
-            width: 300px;
-            font-family: Arial, sans-serif;
-            padding: 12px;
+            width: 320px;
+            font-family: Roboto, sans-serif;
             margin: 0;
-            background: white;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+    /* custom scrollbar so it doesn't look like a windows 95 app */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track{
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb{
+            background: var(--border);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover{
+            background: var(--muted);
+        }
+
+        .header{
+            background: var(--surface);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         h3 {
             margin: 0;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text);
+        }
+
+        .badge{
+            font-size: 10px;
+            background: rgba(46, 160, 67, 0.4);
+            color: var(--accent);
+            border: 1px solid rgba(46, 160, 67, 0.6);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .container{
+            padding: 14px;
         }
 
         .top-bar {
             display: flex;
-            gap: 5px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
-        #note-Input{
+        #note-input{
             flex: 1;
-            padding: 6px;
-            border: 1px solid #999;
-            border-radius: 3px
+            padding: 8px 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            outline: none;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+
+        #note-input:focus{
+            border-color: var(--accent);
         }
 
         #add-btn{
-            background-color: black;
+            background-color: var(--accent);
             color: white;
             border: none;
-            padding: 6px 10px;
+            padding: 8px 12px;
             cursor: pointer;
-            font-weight: bold;
-            border-radius: 3px;
+            font-weight: 600;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: background 0.2s;
         }
 
         #add-btn:hover{
-            background-color: #333;
+            background-color: var(--accent-hover);
         }
 
         #notes-list{
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin: 0 0 14px 0;
+            max-height: 260px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .note{
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 6px;
             font-size: 13px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .note-left{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex:1;
         }
 
         .time-link{
-            font-weight: bold;
-            color: blue;
+            font-family: monospace;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(46, 160, 67, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
             cursor: pointer;
-            margin-right: 5px
+            font-size: 11px;
+            display: inline-block;
+            align-self: flex-start;
+            border: 1px solid rgba(46, 160, 67, 0.2);
+            transition: background 0.2s;
         }
 
         .time-link:hover {
-            text-decoration: underline;
+            background: rgba(46, 160, 67, 0.25);
+        }
+
+        .note-text{
+            color: var(--text);
+            word-break: break-word;
+            line-height: 1.4;
         }
 
         .del-btn{
             background: none;
             border: none;
-            color: red;
+            color: var(--muted);
+            font-size: 13px;
+            padding: 2px;
             cursor: pointer;
-            font-weight: bold;
+            transition: color 0.2s;
         }
 
-        .delete-btn:hover{
-            background: #ffcccc;
-            border-radius: 3px;
+        .del-btn:hover{
+            color: var(--danger);
+        }
+
+        #copy-btn{
+            width: 100%;
+            padding: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        #copy-btn:hover{
+            color: var(--text);
+            background:#21262d;
+            border-color: var(--muted);
+        }
+
+        .empty-state{
+            text-align: center;
+            padding: 24px 10px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-    <h3>🎬 VidNote</h3>
+    <div class="header">
+        <h3>VidNote</h3>
+        <span class="badge">ALT+N</span>
+    </div>
 
+    <div class="container">
     <div class="top-bar">
         <input type="text" id="note-input" placeholder="Type your note here..." />
         <button id="add-btn">Add</button>
@@ -99,7 +219,10 @@
 
     <ul id="notes-list"></ul>
 
-    <script src="popup.js"></script>+
+    <button id="copy-btn">Copy All</button>
+    </div>
+
+    <script src="popup.js"></script>
     
     
 </body>

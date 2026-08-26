@@ -26,7 +26,11 @@ document.addEventListener('DOMContentLoaded', ()=> {
             list.innerHTML = '';
 
             if (notes.length === 0){
-                list.innerHTML = '<li style="color: gray; font-size: 12px;">No notes yet bro.</li>';
+                list.innerHTML = ` 
+                <li class="empty-state">
+                     <span style = "font-size: 24px; display: block; margin-bottom: 8px;">👻</span>
+                     No notes yet bro.
+                </li>`;
                 return;
             }
 
@@ -35,11 +39,13 @@ document.addEventListener('DOMContentLoaded', ()=> {
                 li.className = 'note';
 
                 let leftSide = document.createElement('div');
+                leftSide.className = 'note-left';
 
                 let timeEl = document.createElement('span');
                 timeEl.className = 'time-link';
-                timeEl.innerText = `[${formatTime(n.time)}]`;
+                timeEl.innerText = formatTime(n.time);
 
+                // teleport to the time when clicked
                 timeEl.addEventListener('click', async () => {
                     let tabs = await chrome.tabs.query({active: true, currentWindow: true});
                     await sendMsg(tabs[0].id, {action: "jump_to_time", time: n.time});
@@ -47,6 +53,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
                 let textEl = document.createElement('span');
                 textEl.innerText = n.text;
+                textEl.className = 'note-text';
 
                 leftSide.appendChild(timeEl);
                 leftSide.appendChild(textEl);
@@ -76,7 +83,11 @@ document.addEventListener('DOMContentLoaded', ()=> {
             let url = new URL(tab.url);
             loadNotes(url.searchParams.get("v"));
         } else {
-            list.innerHTML = '<li style="color: gray; font-size: 12px;">Touch some grass bro. It\'s not a YouTube video page.</li>';
+            list.innerHTML = ` 
+            <li class="empty-state">
+                 <span style = "font-size: 24px; display: block; margin-bottom: 8px;">🌱</span>
+                 Touch some grass bro. It\'s not a YouTube video page.
+            </li>`;
         }
     });
 
@@ -117,5 +128,41 @@ document.addEventListener('DOMContentLoaded', ()=> {
         if (e.key === 'Enter'){
             saveIt();
         }
+    });
+
+    let copyBtn = document.getElementById('copy-btn');
+
+    copyBtn.addEventListener('click', () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            let tab = tabs[0];
+            if (!tab.url.includes("youtube.com/watch")) return;
+
+            let url = new URL(tab.url);
+            let vidId = url.searchParams.get("v");
+
+            chrome.storage.local.get([vidId], (data) => {
+                let notes = data[vidId] || [];
+
+                if (notes.length === 0) {
+                    alert("Nothing to copy dawg");
+                    return;
+                }
+
+                let dump = notes.map(n => `[${formatTime(n.time)}] ${n.text}`).join('\n');
+
+                navigator.clipboard.writeText(dump).then(() => {
+                    let ogText = copyBtn.innerText;
+                    copyBtn.innerText = "✅ Copied!";
+                    copyBtn.style.color = '#4ade80';
+                    copyBtn.style.borderColor = '#4ade80';
+
+                    setTimeout(() => {
+                        copyBtn.innerText = ogText;
+                        copyBtn.style.color = '';
+                        copyBtn.style.borderColor = '';
+                    }, 2000);
+                });
+            });
+        });
     });
 });
