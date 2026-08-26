@@ -5,7 +5,7 @@ VidNote is a frictionless Chrome extension that lets you take timestamped notes 
 ## Installation
 This is a V1 terminal inspired build. You can install it locally in under 30 seconds:
 
-1. Download `VidNote-v1.zip` from the [Releases Page]([https://github.com/kartikeynegi25/VidNote/releases](https://github.com/kartikeynegi25/VidNote/releases/tag/v1.0.0).
+1. Download `VidNote-v1.zip` from the [Releases Page](https://github.com/kartikeynegi25/VidNote/releases/tag/v1.0.0).
 2. Unzip the file to a folder on your computer.
 3. Open Chrome and navigate to `chrome://extensions/`.
 4. Turn on **Developer mode** in the top right corner.
