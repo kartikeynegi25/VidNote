@@ -11,6 +11,14 @@ This is a V1 terminal inspired build. You can install it locally in under 30 sec
 4. Turn on **Developer mode** in the top right corner.
 5. Click **Load unpacked** and select the folder you just unzipped.
 
+Or you can install VidNote directly using our packed production build:
+
+1. Download `VidNote.crx` file from the [Latest Releases Page](https://github.com/kartikeynegi25/VidNote/releases/latest).
+2. Open Chrome and navigate to `chrome://extensions/`.
+3. Turn on **Developer mode** in the top right corner.
+4. Drag and drop the downloaded **`VidNote.crx`** file anywhere onto the `chrome://extensions/` page.
+5. Click **Add extension** when prompted by chrome.
+
 ## 🎬 Demo Video & Screenshots
 
 YouTube Video Link to help you install and use it: https://youtu.be/08dv63YkPuk
