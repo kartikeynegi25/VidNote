@@ -13,7 +13,8 @@ This is a V1 terminal inspired build. You can install it locally in under 30 sec
 
 ## 🎬 Demo Video & Screenshots
 
-<video controls src="demo videoo.mp4" title="Title"></video>
+Demo YouTube Video Link: https://youtu.be/08dv63YkPuk
+[![VidNote Demo](![alt text](image-1.png))](https://youtu.be/your-unlisted-video-link)
 
 ![alt text](image.png)
 
