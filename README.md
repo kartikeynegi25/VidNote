@@ -13,7 +13,7 @@ This is a V1 terminal inspired build. You can install it locally in under 30 sec
 
 ## 🎬 Demo Video & Screenshots
 
-<video controls src="Screen Recording 2026-08-26 111112.mp4" title="Title"></video>
+<video controls src="demo videoo.mp4" title="Title"></video>
 
 ![alt text](image.png)
 
